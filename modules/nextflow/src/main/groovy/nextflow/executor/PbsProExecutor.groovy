@@ -84,11 +84,11 @@ class PbsProExecutor extends PbsExecutor {
 
     @Override
     protected List<String> queueStatusCommand(Object queue) {
-        String cmd = 'qstat -f ' 
+        String cmd = 'qstat.bin -f ' 
         if( queue ) {
             cmd += queue
         } else {
-            cmd += '$( qstat -B | egrep -v \'(^Server|^---)\' | awk -v ORS=\' \' \'{print \"@\"\$1}\' )'
+            cmd += '$( qstat.bin -B | egrep -v \'(^Server|^---)\' | awk -v ORS=\' \' \'{print \"@\"\$1}\' )'
         }
         return ['bash','-c', "set -o pipefail; $cmd | { egrep '(Job Id:|job_state =)' || true; }".toString()]
     }
